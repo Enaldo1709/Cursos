@@ -14,7 +14,7 @@ public class Empleado {
         this.salario = salario;
         this.departamento = departamento;
     }
-    
+
     public int getId() {
         return id;
     }
@@ -44,5 +44,11 @@ public class Empleado {
     }
     public void setDepartamento(Departamento departamento) {
         this.departamento = departamento;
+    }
+
+    @Override
+    public String toString() {
+        return "Empleado [nombre=" + nombre + ", edad=" + edad + ", id=" + id + ", departamento=" + departamento 
+            + ", salario=" + salario + "]";
     }   
 }
