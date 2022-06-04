@@ -43,6 +43,7 @@ public class App {
         System.out.println("\nEjercicio 5: ");
         Map<Departamento, List<Empleado>> empleados = getEmpleados.get().stream()
             .collect(Collectors.groupingBy(Empleado::getDepartamento, Collectors.toList()));
+            
         empleados.forEach((k,v)-> {
             System.out.printf("Departamento: %s\n",k.name());
             v.forEach(System.out::println);
