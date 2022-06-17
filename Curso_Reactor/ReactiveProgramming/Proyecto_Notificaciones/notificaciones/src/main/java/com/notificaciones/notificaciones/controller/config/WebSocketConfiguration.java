@@ -7,6 +7,9 @@ import java.util.concurrent.Executors;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.core.annotation.OrderUtils;
 import org.springframework.web.reactive.HandlerMapping;
 import org.springframework.web.reactive.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.reactive.socket.WebSocketHandler;
@@ -35,6 +38,7 @@ public class WebSocketConfiguration {
         return new SimpleUrlHandlerMapping(){
             {
                 setUrlMap(Collections.singletonMap("/ws/notifications", handler));
+                setOrder(Ordered.HIGHEST_PRECEDENCE);
             }
         };
     }
@@ -51,7 +55,8 @@ public class WebSocketConfiguration {
             Flux<WebSocketMessage> messages = publish.map(e -> {
                 try {
                     NotificationData data = (NotificationData) e.getSource();
-                    return mapper.writeValueAsString(Map.of("id",data.getId()));
+                    log.info("Enviando mensaje - id: {}",data.getId());
+                    return "Pedido recibido de: ".concat(mapper.writeValueAsString(Map.of("id",data.getId())));
                 } catch (JsonProcessingException ex) {
                     throw new RuntimeException(ex);
                 }

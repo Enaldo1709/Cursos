@@ -37,7 +37,7 @@ public class NotificationService implements NotificationGateway{
         for (int i = 0; i < param; i++) {
             Mono.fromSupplier(() -> NotificationData.builder().id(param.longValue()).build())
                 .map(NotificationEvent::new)
-                .doOnSuccess(publisher::publishEvent);
+                .subscribe(publisher::publishEvent);
         }
     }
 
