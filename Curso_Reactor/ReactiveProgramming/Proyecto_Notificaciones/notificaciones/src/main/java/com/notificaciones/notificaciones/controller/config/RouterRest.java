@@ -17,7 +17,7 @@ public class RouterRest {
     @Bean
     public RouterFunction<ServerResponse> routerFunction(RouteHandler handler) {
         return RouterFunctions.route()
-            .path(basePath, builder -> builder.GET("start-nofication/{param}",
+            .path(basePath, builder -> builder.GET("{param}",
                 handler::initNotification).build())
             .build();
     }

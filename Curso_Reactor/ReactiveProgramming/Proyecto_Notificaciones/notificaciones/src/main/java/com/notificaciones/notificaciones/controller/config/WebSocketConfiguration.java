@@ -56,7 +56,7 @@ public class WebSocketConfiguration {
                 try {
                     NotificationData data = (NotificationData) e.getSource();
                     log.info("Enviando mensaje - id: {}",data.getId());
-                    return "Pedido recibido de: ".concat(mapper.writeValueAsString(Map.of("id",data.getId())));
+                    return mapper.writeValueAsString(data);
                 } catch (JsonProcessingException ex) {
                     throw new RuntimeException(ex);
                 }

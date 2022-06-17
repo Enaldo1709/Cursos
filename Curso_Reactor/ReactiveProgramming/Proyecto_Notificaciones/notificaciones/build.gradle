@@ -18,6 +18,10 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
 	implementation 'org.projectlombok:lombok:1.18.24'
+	implementation 'org.yaml:snakeyaml:1.29'
+	implementation ('com.github.javafaker:javafaker:1.0.2'){
+		exclude group: 'org.yaml', module: 'snakeyaml'
+	}
 	//implementation 'io.projectreactor:reactor-bus:2.0.8.RELEASE'
 
 }
@@ -25,3 +29,4 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+

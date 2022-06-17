@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.github.javafaker.Faker;
 import com.notificaciones.notificaciones.model.NotificationData;
 import com.notificaciones.notificaciones.model.NotificationEvent;
 import com.notificaciones.notificaciones.model.ResponseModel;
@@ -15,7 +16,7 @@ import com.notificaciones.notificaciones.service.gateways.NotificationGateway;
 import com.notificaciones.notificaciones.utils.Validator;
 
 import lombok.RequiredArgsConstructor;
-import lombok.val;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Component
@@ -23,6 +24,7 @@ import reactor.core.publisher.Mono;
 public class NotificationService implements NotificationGateway{
     private final Validator validator;
     private final ApplicationEventPublisher publisher;
+    private final Faker repository;
 
     @Override
     public Mono<ResponseModel> doInitNotificationProcess(Map<String,String> params){
@@ -34,11 +36,15 @@ public class NotificationService implements NotificationGateway{
     }
 
     private void notifySell(Integer param){
-        for (int i = 0; i < param; i++) {
-            Mono.fromSupplier(() -> NotificationData.builder().id(param.longValue()).build())
-                .map(NotificationEvent::new)
-                .subscribe(publisher::publishEvent);
-        }
+        Flux.range(0, param)
+            .map(i -> NotificationData.builder()
+                .id(i)
+                .name(repository.name().fullName())
+                .email(repository.internet().safeEmailAddress())
+                .mobile(repository.phoneNumber().cellPhone())
+                .build()
+            ).map(NotificationEvent::new)
+            .subscribe(publisher::publishEvent);
     }
 
     private Mono<ResponseModel> createResponse(int code, String message){
