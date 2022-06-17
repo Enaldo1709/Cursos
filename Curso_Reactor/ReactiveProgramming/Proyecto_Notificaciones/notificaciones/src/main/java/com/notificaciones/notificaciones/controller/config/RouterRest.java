@@ -1,4 +1,4 @@
-package com.notificaciones.notificaciones.controller;
+package com.notificaciones.notificaciones.controller.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -7,13 +7,15 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
+import com.notificaciones.notificaciones.controller.RouteHandler;
+
 @Configuration
 public class RouterRest {
     @Value("${server.servlet.context-path}/")
     private String basePath;
 
     @Bean
-    public RouterFunction<ServerResponse> routerFunction(Handler handler) {
+    public RouterFunction<ServerResponse> routerFunction(RouteHandler handler) {
         return RouterFunctions.route()
             .path(basePath, builder -> builder.GET("start-nofication/{param}",
                 handler::initNotification).build())

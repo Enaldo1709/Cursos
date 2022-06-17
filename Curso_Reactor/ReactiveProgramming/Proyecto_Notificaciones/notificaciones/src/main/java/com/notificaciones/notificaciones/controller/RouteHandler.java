@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono;
 
 @Component
 @RequiredArgsConstructor
-public class Handler {
+public class RouteHandler {
     private final NotificationService service;
 
     public Mono<ServerResponse> initNotification(ServerRequest request){
