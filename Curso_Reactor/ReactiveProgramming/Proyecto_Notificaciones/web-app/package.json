@@ -1,0 +1,13 @@
+{
+  "name": "web-app",
+  "version": "1.0.0",
+  "description": "Front-end app to consume web sockets",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "enaldo1709",
+  "license": "MIT"
+}
