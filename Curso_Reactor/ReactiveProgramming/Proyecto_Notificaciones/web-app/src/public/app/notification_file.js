@@ -1,4 +1,4 @@
-let socket = new WebSocket("ws://192.168.1.130:8080/ws/notifications");
+let socket = new WebSocket("ws://localhost:8080/ws/notifications");
 let pedidos = document.getElementById("pedidos")
 let clearButton = document.getElementById("clear")
 let socketStatus = document.getElementById("socket-status")
@@ -17,12 +17,10 @@ socket.onopen = function(e) {
   socket.onclose = function(event) {
     if (event.wasClean) {
       console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
-	  socketStatus.innerHTML = "Disconnected..."
     } else {
       // e.g. server process killed or network down
       // event.code is usually 1006 in this case
       console.error('[close] Connection died');
-	  socketStatus.innerHTML = "Disconnected..."
     }
   };
   
@@ -35,5 +33,6 @@ clearButton.addEventListener('click', (e) => {
 })
 
 disconnect.addEventListener('click', e => {
+	socketStatus.innerHTML = "Disconnected..."
 	socket.close()
 })

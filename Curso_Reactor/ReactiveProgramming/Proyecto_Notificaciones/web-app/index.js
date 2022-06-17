@@ -3,19 +3,45 @@ import path from 'path'
 import { createReadStream } from 'fs'
 import { createServer } from 'http'
 import {fileURLToPath} from 'url';
+import { networkInterfaces } from 'os';
+import fs from 'fs'
 
 const {PORT = 3000} = process.env
 
 const HTML_CONTENT_TYPE = 'text/html'
 const CSS_CONTENT_TYPE = 'text/css'
 const JS_CONTENT_TYPE = 'text/javascript'
+const nets = networkInterfaces();
+const results = Object.create(null);
 
+for (const name of Object.keys(nets)) {
+	for (const net of nets[name]) {
+		const familyV4Value = typeof net.family === 'string' ? 'IPv4' : 4
+        if (net.family === familyV4Value && !net.internal) {
+            if (!process.env.LOCAL_IP) {
+				process.env['LOCAL_IP'] = net.address
+            }
+        }
+	}	
+}
+
+fs.readFile('./src/public/app/notification_file.js', 'utf8', function (err,data) {
+  if (err) {
+    return console.log(err);
+  }
+  var result = data.replace(/localhost/g, process.env.LOCAL_IP);
+
+  fs.writeFile('./src/public/app/notification.js', result, 'utf8', function (err) {
+     if (err) return console.log(err);
+  });
+});
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC_FOLDER = join(__dirname, 'src/public')
 
 const requestListener = (req, res) => {
   const {url} = req
+	console.log("url -> "+url)
   let statusCode = 200
   let contentType = HTML_CONTENT_TYPE
   let stream 
