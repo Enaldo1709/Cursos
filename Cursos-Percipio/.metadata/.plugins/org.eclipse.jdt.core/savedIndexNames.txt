@@ -1,0 +1,8 @@
+INDEX VERSION 1.131+/home/enaldo1709/Cursos-Percipio/.metadata/.plugins/org.eclipse.jdt.core
+1349077234.index
+2512670634.index
+45200687.index
+1110495848.index
+1865797976.index
+2635485569.index
+850027713.index
